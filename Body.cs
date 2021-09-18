@@ -7,18 +7,41 @@ namespace Orbital
 {
     public class Body
     {
+        public static float G = Consts.G;
+
+        private string name;
+
         private Vector2D initialPos;
         private Vector2D initialVel;
 
+        private Vector2D rn;
         private Vector2D lastPos;
         private Vector2D pos;
+
+        private Vector2D vn;
         private Vector2D vel;
 
         private float mass;
         private float radius;
 
+        private string imageFileName;
         private Image image;
         private Color color;
+
+        private bool locked;
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+
+            set
+            {
+                name = value;
+            }
+        }
 
         public Vector2D InitialPosition
         {
@@ -40,7 +63,9 @@ namespace Orbital
         {
             get
             {
-                return lastPos;
+                Vector2D result = lastPos;
+                lastPos = pos;
+                return result;
             }
         }
 
@@ -98,16 +123,25 @@ namespace Orbital
             }
         }
 
+        public string ImageFileName
+        {
+            get
+            {
+                return imageFileName;
+            }
+
+            set
+            {
+                imageFileName = value;
+                image = value != null ? Image.FromFile(value) : null;
+            }
+        }
+
         public Image Image
         {
             get
             {
                 return image;
-            }
-
-            set
-            {
-                image = value;
             }
         }
 
@@ -124,14 +158,30 @@ namespace Orbital
             }
         }
 
-        public Body(Vector2D pos, Vector2D vel, float mass, float radius, Image image, Color color)
+        public bool Locked
         {
+            get
+            {
+                return locked;
+            }
+
+            set
+            {
+                locked = value;
+            }
+        }
+
+        public Body(string name, Vector2D pos, Vector2D vel, float mass, float radius, string imageFileName, Color color, bool locked = false)
+        {
+            this.name = name;
             this.pos = pos;
             this.vel = vel;
             this.mass = mass;
             this.radius = radius;
-            this.image = image;
             this.color = color;
+            this.locked = locked;
+
+            ImageFileName = imageFileName;
 
             initialPos = pos;
             initialVel = vel;
@@ -139,33 +189,64 @@ namespace Orbital
             lastPos = pos;
         }
 
-        public void Iteract(List<Body> bodies, float dt)
+        public void BeginIteract()
         {
-            Vector2D F = Vector2D.NULL_VECTOR;
+            rn = pos;
+            vn = vel;
+        }
+
+        public Vector2D Acceleration(List<Body> bodies, Vector2D r)
+        {
+            Vector2D result = Vector2D.NULL_VECTOR;
             for (int i = 0; i < bodies.Count; i++)
             {
                 Body other = bodies[i];
                 if (other == this)
                     continue;
 
-                double d = pos.DistanceTo(other.pos);
-                Vector2D dir = (other.pos - pos).Versor;
-                float f = (float)((double) Consts.G * mass * other.mass / (d * d));
-                F += f * dir;
+                double d = r.DistanceTo(other.rn);
+                Vector2D dir = (other.rn - r).Versor;
+                float ai = (float)((double) G * other.mass / (d * d));
+                result += ai * dir;
             }
 
-            Vector2D a = F / mass;
+            return result;
+        }
 
-            vel += a * dt;
+        public void Iteract(List<Body> bodies, float dt)
+        {
+            if (locked)
+                return;
 
-            lastPos = pos;
-            pos += vel * dt;
+            // Aplicação do método de Runge-Kutta de quarta ordem
+
+            float dt2 = dt / 2;
+
+            Vector2D k1r = vn;
+            Vector2D k1v = Acceleration(bodies, rn);
+
+            Vector2D k2r = vn + dt2 * k1v;
+            Vector2D k2v = Acceleration(bodies, rn + dt2 * k1r);
+
+            Vector2D k3r = vn + dt2 * k2v;
+            Vector2D k3v = Acceleration(bodies, rn + dt2 * k2r);
+
+            Vector2D k4r = vn + dt * k3v;
+            Vector2D k4v = Acceleration(bodies, rn + dt * k3r);
+
+            pos = rn + (k1r + 2 * (k2r + k3r) + k4r) * dt / 6;
+            vel = vn + (k1v + 2 * (k2v + k3v) + k4v) * dt / 6;
         }
 
         public void Reset()
         {
             pos = initialPos;
             vel = initialVel;
+        }
+
+        public override string ToString()
+        {
+            return name;
         }
     }
 }
