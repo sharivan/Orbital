@@ -1,0 +1,7 @@
+<orbital>
+  <options drawPath="True" backgroundFilePath="C:\Users\miste\Documents\Projects\c#\vc#\Orbital\resources\background\Starfield5L.jpg" G="6.67E-11" viewPortWidth="400000000000" />
+  <bodies>
+    <body name="Julinho" mass="1.989E+30" radius="10000000000" x="-100000000000" y="0" vx="0" vy="-10000" imageFileName="C:\Users\miste\Documents\Projects\c#\vc#\Orbital\resources\objects\Brightman Sun.png" color="-256" locked="False" />
+    <body name="Sharivan" mass="1.989E+30" radius="10000000000" x="100000000000" y="0" vx="0" vy="10000" imageFileName="C:\Users\miste\Documents\Projects\c#\vc#\Orbital\resources\objects\Sharivan Red Supergiant.png" color="-65536" locked="False" />
+  </bodies>
+</orbital>

@@ -11,347 +11,124 @@ using System.Windows.Forms;
 using System.Globalization;
 using System.Configuration;
 using System.IO;
+using System.Xml;
 
 namespace Orbital
 {
     public partial class FrmOrbital : Form
     {
-        public sealed class BodyConfigElement : ConfigurationElement
-        {
-            public BodyConfigElement()
-            {
-            }
-
-            public BodyConfigElement(string name)
-            {
-                Name = name;
-            }
-
-            [ConfigurationProperty("name", IsRequired = true, IsKey = true)]
-            public string Name
-            {
-                get
-                {
-                    return (string)this["name"];
-                }
-
-                set
-                {
-                    this["name"] = value;
-                }
-            }
-
-            [ConfigurationProperty("image", 
-                IsRequired = false,
-                DefaultValue = null
-                )]
-            public string Image
-            {
-                get
-                {
-                    return (string)this["image"];
-                }
-
-                set
-                {
-                    this["image"] = value;
-                }
-            }
-
-            [ConfigurationProperty("mass",
-                IsRequired = false,
-                DefaultValue = 0F
-                )]
-            public float Mass
-            {
-                get
-                {
-                    return (float)this["mass"];
-                }
-
-                set
-                {
-                    this["mass"] = value;
-                }
-            }
-
-            [ConfigurationProperty("radius",
-                IsRequired = true,
-                DefaultValue = 0F
-                )]
-            public float Radius
-            {
-                get
-                {
-                    return (float)this["radius"];
-                }
-
-                set
-                {
-                    this["radius"] = value;
-                }
-            }
-
-            [ConfigurationProperty("color",
-                IsRequired = false,
-                DefaultValue = 0
-                )]
-            public int Color
-            {
-                get
-                {
-                    return (int)this["color"];
-                }
-
-                set
-                {
-                    this["color"] = value;
-                }
-            }
-
-            [ConfigurationProperty("islocked",
-                IsRequired = false,
-                DefaultValue = false
-                )]
-            public bool Locked
-            {
-                get
-                {
-                    return (bool)this["islocked"];
-                }
-
-                set
-                {
-                    this["islocked"] = value;
-                }
-            }
-
-            [ConfigurationProperty("x",
-                IsRequired = false,
-                DefaultValue = 0F
-                )]
-            public float X
-            {
-                get
-                {
-                    return (float)this["x"];
-                }
-
-                set
-                {
-                    this["x"] = value;
-                }
-            }
-
-            [ConfigurationProperty("y",
-                IsRequired = false,
-                DefaultValue = 0F
-                )]
-            public float Y
-            {
-                get
-                {
-                    return (float)this["y"];
-                }
-
-                set
-                {
-                    this["y"] = value;
-                }
-            }
-
-            [ConfigurationProperty("vx",
-                IsRequired = false,
-                DefaultValue = 0F
-                )]
-            public float VX
-            {
-                get
-                {
-                    return (float)this["vx"];
-                }
-
-                set
-                {
-                    this["vx"] = value;
-                }
-            }
-
-            [ConfigurationProperty("vy",
-                IsRequired = false,
-                DefaultValue = 0F
-                )]
-            public float VY
-            {
-                get
-                {
-                    return (float)this["vy"];
-                }
-
-                set
-                {
-                    this["vy"] = value;
-                }
-            }
-        }
-
-        public sealed class BodyCollection : ConfigurationElementCollection
-        {
-            public new BodyConfigElement this[string name]
-            {
-                get
-                {
-                    BodyConfigElement element;
-                    if (IndexOf(name) < 0)
-                    {
-                        element = new BodyConfigElement(name);
-                        BaseAdd(element);
-                    }
-                    else
-                        element = (BodyConfigElement)BaseGet(name);
-
-                    return element;
-                }
-            }
-
-            public BodyConfigElement this[int index]
-            {
-                get 
-                { 
-                    return (BodyConfigElement)BaseGet(index);
-                }
-            }
-
-            protected override string ElementName
-            {
-                get
-                {
-                    return "body";
-                }
-            }
-
-            public int IndexOf(string name)
-            {
-                name = name.ToLower();
-
-                for (int idx = 0; idx < base.Count; idx++)
-                    if (this[idx].Name.ToLower() == name)
-                        return idx;
-
-                return -1;
-            }
-
-            public override ConfigurationElementCollectionType CollectionType
-            {
-                get
-                {
-                    return ConfigurationElementCollectionType.BasicMap;
-                }
-            }
-
-            protected override ConfigurationElement CreateNewElement()
-            {
-                return new BodyConfigElement();
-            }
-
-            protected override object GetElementKey(ConfigurationElement element)
-            {
-                return ((BodyConfigElement)element).Name;
-            }
-            
-            public void Clear()
-            {
-                BaseClear();
-            }
-        }
-
         public sealed class OrbitalSection : ConfigurationSection
         {
             public OrbitalSection()
             {
             }
 
-            [ConfigurationProperty("backgroundFileName",
+            [ConfigurationProperty("documentFilePath",
                 DefaultValue = null,
                 IsRequired = false
                 )]
-            public string BackgroundFileName
+            public string DocumentFilePath
             {
                 get
                 {
-                    return (string)this["backgroundFileName"];
+                    return (string)this["documentFilePath"];
                 }
 
                 set
                 {
-                    this["backgroundFileName"] = value;
+                    this["documentFilePath"] = value;
                 }
             }
 
-            [ConfigurationProperty("drawPath",
-                DefaultValue = true,
+            [ConfigurationProperty("left",
+                DefaultValue = -1,
                 IsRequired = false
                 )]
-            public bool DrawPath
+            public int Left
             {
                 get
                 {
-                    return (bool)this["drawPath"];
+                    return (int)this["left"];
                 }
 
                 set
                 {
-                    this["drawPath"] = value;
+                    this["left"] = value;
                 }
             }
 
-            [ConfigurationProperty("g",
-                DefaultValue = Consts.G,
+            [ConfigurationProperty("top",
+                DefaultValue = -1,
                 IsRequired = false
                 )]
-            public float G
+            public int Top
             {
                 get
                 {
-                    return (float)this["g"];
+                    return (int)this["top"];
                 }
 
                 set
                 {
-                    this["g"] = value;
+                    this["top"] = value;
                 }
             }
 
-            [ConfigurationProperty("viewPortWidth",
-                DefaultValue = VIEW_PORT_WIDTH,
+            [ConfigurationProperty("width",
+                DefaultValue = -1,
                 IsRequired = false
                 )]
-            public float ViewPortWidth
+            public int Width
             {
                 get
                 {
-                    return (float)this["viewPortWidth"];
+                    return (int)this["width"];
                 }
 
                 set
                 {
-                    this["viewPortWidth"] = value;
+                    this["width"] = value;
                 }
             }
 
-            [ConfigurationProperty("bodies", IsDefaultCollection = true)]
-            public BodyCollection Bodies
+            [ConfigurationProperty("height",
+                DefaultValue = -1,
+                IsRequired = false
+                )]
+            public int Height
             {
                 get
                 {
-                    return (BodyCollection)base["bodies"];
+                    return (int)this["height"];
+                }
+
+                set
+                {
+                    this["height"] = value;
+                }
+            }
+
+            [ConfigurationProperty("maximized",
+                DefaultValue = false,
+                IsRequired = false
+                )]
+            public bool Maximized
+            {
+                get
+                {
+                    return (bool)this["maximized"];
+                }
+
+                set
+                {
+                    this["maximized"] = value;
                 }
             }
         }
 
-        public const float VIEW_PORT_WIDTH = 400E9F;
-
-        public const float TIME_SCALE = 1E3F;
+        public const double VIEW_PORT_WIDTH = 400E9;
+        public const float TIME_SCALE = 1000;
+        public const int STEPS_PER_FRAME = 1000;
 
         private Body selected;
 
@@ -359,7 +136,7 @@ namespace Orbital
 
         private Stopwatch watcher;
 
-        private string backgroundFileName;
+        private string backgroundFilePath;
         private Image background;
         private Bitmap path;
 
@@ -370,7 +147,15 @@ namespace Orbital
 
         private Configuration config;
 
-        private float viewPortWidth = VIEW_PORT_WIDTH;
+        private double viewPortWidth = VIEW_PORT_WIDTH;
+        private float timeScale = TIME_SCALE;
+        private int stepsPerFrame = STEPS_PER_FRAME;
+
+        private bool drawPath;
+
+        private string documentFilePath;
+
+        private Rectangle unmaximizedBounds;
 
         public FrmOrbital()
         {
@@ -380,32 +165,15 @@ namespace Orbital
 
             background = null;
 
-            //Body sun = new Body("sun", Vector2D.NULL_VECTOR, Vector2D.NULL_VECTOR, (float)Consts.SUN_MASS, SUN_RADIUS, Image.FromFile(@"resources\objects\Brightman Sun.png"), Color.Yellow);
-            //Body earth = new Body("earth", new Vector2D((float)(Consts.DISTANCE_EARH_SUN), 0), new Vector2D(0, (float)Consts.EARH_SPEED), (float)Consts.EARH_MASS, EARTH_RADIUS, Image.FromFile(@"resources\objects\Chequer Milos Earth.png"), Color.Blue);
-            //Body moon = new Body("moon", new Vector2D((float)(Consts.DISTANCE_EARH_SUN + Consts.DISTANCE_EARH_MOON), 0), new Vector2D(0, (float)(Consts.EARH_SPEED /*+ Consts.MOON_SPEED*/)), (float)Consts.MOON_MASS, EARTH_RADIUS, Image.FromFile(@"resources\objects\Planet Gebirge.png"), Color.Red);
-
-            //Body star1 = new Body("star1", new Vector2D(-1E11F, 0), Vector2D.NULL_VECTOR, 1E30F, 5E10F, null, Color.Yellow, true);
-            //Body star2 = new Body("star2", new Vector2D(+1E11F, 0), Vector2D.NULL_VECTOR, 1E30F, 5E10F, null, Color.Blue, true);
-            //Body planet = new Body("planet", new Vector2D(0, 0), new Vector2D(+10000, +30000), 1E30F, 1E10F, null, Color.Green);
-
             bodies = new List<Body>();
 
-            //bodies.Add(sun);
-            //bodies.Add(earth);
-            //bodies.Add(moon);
-
-            //bodies.Add(star1);
-            //bodies.Add(star2);
-            //bodies.Add(planet);
-
             selected = null;
-
-            path = new Bitmap(pbSimulation.ClientSize.Width, pbSimulation.ClientSize.Height);
 
             reset = true;
             dragging = false;
 
             imageFileName = null;
+            documentFilePath = null;
         }
 
         private void UpdateBodiesListBox()
@@ -415,10 +183,10 @@ namespace Orbital
                 lbBodies.Items.Add(bodies[i]);
         }
 
-        public float Transform(float input)
+        public float Transform(double input)
         {
-            float scale = pbSimulation.ClientSize.Width / viewPortWidth;
-            return input * scale;
+            double scale = pbSimulation.ClientSize.Width / viewPortWidth;
+            return (float) (input * scale);
         }
 
         public PointF Transform(Vector2D v)
@@ -431,18 +199,21 @@ namespace Orbital
         private void tmrTick_Tick(object sender, EventArgs e)
         {
             watcher.Stop();
-            long dt = (long)(watcher.ElapsedMilliseconds * TIME_SCALE);
+            long dt = (long)(watcher.ElapsedMilliseconds * timeScale / stepsPerFrame);
 
-            for (int i = 0; i < bodies.Count; i++)
+            for (int counter = 0; counter < stepsPerFrame; counter++)
             {
-                Body body = bodies[i];
-                body.BeginIteract();
-            }
+                for (int i = 0; i < bodies.Count; i++)
+                {
+                    Body body = bodies[i];
+                    body.BeginIteract();
+                }
 
-            for (int i = 0; i < bodies.Count; i++)
-            {
-                Body body = bodies[i];
-                body.Iteract(bodies, dt);
+                for (int i = 0; i < bodies.Count; i++)
+                {
+                    Body body = bodies[i];
+                    body.Step(bodies, dt);
+                }
             }
 
             if (selected != null)
@@ -458,43 +229,6 @@ namespace Orbital
             DialogResult dr = cdColorDialog.ShowDialog();
             if (dr == DialogResult.OK)
                 lblColor.BackColor = cdColorDialog.Color;
-        }
-
-        private void btnPlay_Click(object sender, EventArgs e)
-        {
-            if (tmrTick.Enabled)
-            {
-                watcher.Stop();
-                tmrTick.Enabled = false;
-                btnPlay.Text = "Play";
-                btnAdd.Enabled = true;
-            }
-            else
-            {
-                watcher.Reset();
-                watcher.Start();
-                tmrTick.Enabled = true;
-                btnPlay.Text = "Pause";
-                btnAdd.Enabled = false;
-            }
-
-            UpdateSelected(selected);
-        }
-
-        private void btnReset_Click(object sender, EventArgs e)
-        {
-            reset = true;
-
-            for (int i = 0; i < bodies.Count; i++)
-            {
-                Body body = bodies[i];
-                body.Reset();
-            }
-
-            watcher.Reset();
-            watcher.Start();
-
-            pbSimulation.Invalidate();
         }
 
         private string GenerateName()
@@ -528,12 +262,12 @@ namespace Orbital
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            float mass;
-            float radius;
-            float x;
-            float y;
-            float vx;
-            float vy;
+            double mass;
+            double radius;
+            double x;
+            double y;
+            double vx;
+            double vy;
 
             string name = txtName.Text;
             if (name == "")
@@ -546,7 +280,7 @@ namespace Orbital
 
             try
             {
-                mass = float.Parse(txtMass.Text, CultureInfo.InvariantCulture);
+                mass = double.Parse(txtMass.Text, CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
@@ -556,7 +290,7 @@ namespace Orbital
 
             try
             {
-                radius = float.Parse(txtRadius.Text, CultureInfo.InvariantCulture);
+                radius = double.Parse(txtRadius.Text, CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
@@ -566,7 +300,7 @@ namespace Orbital
 
             try
             {
-                x = float.Parse(txtX.Text, CultureInfo.InvariantCulture);
+                x = double.Parse(txtX.Text, CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
@@ -576,7 +310,7 @@ namespace Orbital
 
             try
             {
-                y = float.Parse(txtY.Text, CultureInfo.InvariantCulture);
+                y = double.Parse(txtY.Text, CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
@@ -586,7 +320,7 @@ namespace Orbital
 
             try
             {
-                vx = float.Parse(txtVX.Text, CultureInfo.InvariantCulture);
+                vx = double.Parse(txtVX.Text, CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
@@ -596,7 +330,7 @@ namespace Orbital
 
             try
             {
-                vy = float.Parse(txtVY.Text, CultureInfo.InvariantCulture);
+                vy = double.Parse(txtVY.Text, CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
@@ -650,7 +384,7 @@ namespace Orbital
             else
                 g.Clear(Color.Black);
 
-            if (chkShowPath.Checked)
+            if (drawPath)
                 g.DrawImage(path, 0, 0);
 
             for (int i = 0; i < bodies.Count; i++)
@@ -790,16 +524,16 @@ namespace Orbital
                 return;
             }
 
-            float mass;
-            float radius;
-            float x;
-            float y;
-            float vx;
-            float vy;
+            double mass;
+            double radius;
+            double x;
+            double y;
+            double vx;
+            double vy;
 
             try
             {
-                mass = float.Parse(txtMass.Text, CultureInfo.InvariantCulture);
+                mass = double.Parse(txtMass.Text, CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
@@ -809,7 +543,7 @@ namespace Orbital
 
             try
             {
-                radius = float.Parse(txtRadius.Text, CultureInfo.InvariantCulture);
+                radius = double.Parse(txtRadius.Text, CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
@@ -819,7 +553,7 @@ namespace Orbital
 
             try
             {
-                x = float.Parse(txtX.Text, CultureInfo.InvariantCulture);
+                x = double.Parse(txtX.Text, CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
@@ -829,7 +563,7 @@ namespace Orbital
 
             try
             {
-                y = float.Parse(txtY.Text, CultureInfo.InvariantCulture);
+                y = double.Parse(txtY.Text, CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
@@ -839,7 +573,7 @@ namespace Orbital
 
             try
             {
-                vx = float.Parse(txtVX.Text, CultureInfo.InvariantCulture);
+                vx = double.Parse(txtVX.Text, CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
@@ -849,7 +583,7 @@ namespace Orbital
 
             try
             {
-                vy = float.Parse(txtVY.Text, CultureInfo.InvariantCulture);
+                vy = double.Parse(txtVY.Text, CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
@@ -880,14 +614,125 @@ namespace Orbital
             pbSimulation.Invalidate();
         }
 
-        private void pbSelectedImage_DoubleClick(object sender, EventArgs e)
+        private void lbBodies_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DialogResult dr = ofdOpenFileDialog.ShowDialog();
+            int index = lbBodies.SelectedIndex;
+            if (index == -1)
+                return;
+
+            Body body = lbBodies.Items[index] as Body;
+            UpdateSelected(body);
+        }
+
+        private bool ChangeBackground(string fileName, bool showMessageOnException = true, bool invalidate = true)
+        {
+            try
+            {
+                backgroundFilePath = fileName;
+                background = fileName != null && fileName != "" ? Image.FromFile(fileName) : null;
+
+                if (invalidate)
+                    pbSimulation.Invalidate();
+
+                return true;
+            }
+            catch (FileNotFoundException)
+            {
+                if (showMessageOnException)
+                    MessageBox.Show("Arquivo de imagem de fundo '" + fileName + "' não encontrado.");
+            }
+            catch (Exception e)
+            {
+                if (showMessageOnException)
+                    MessageBox.Show("Erro ao carregar a imagem de fundo (" + e.Message + ").");
+            }
+
+            return false;
+        }
+
+        private void FrmOrbital_Load(object sender, EventArgs e)
+        {
+            path = new Bitmap(pbSimulation.ClientSize.Width, pbSimulation.ClientSize.Height);
+
+            config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            OrbitalSection section = config.Sections["OrbitalSection"] as OrbitalSection;
+            if (section == null)
+            {
+                section = new OrbitalSection();
+                config.Sections.Add("OrbitalSection", section);
+                config.Save();
+            }
+
+            int left = section.Left;
+            int top = section.Top;
+            int width = section.Width;
+            int height = section.Height;
+
+            unmaximizedBounds = new Rectangle(left >= 0 ? left : Left, top >= 0 ? top : Top, width > 0 ? width : Width, height > 0 ? height : Height);
+
+            bool maximized = section.Maximized;
+
+            Location = unmaximizedBounds.Location;
+            Size = unmaximizedBounds.Size;
+
+            if (maximized)
+                WindowState = FormWindowState.Maximized;
+
+            documentFilePath = section.DocumentFilePath;
+            if (documentFilePath != null && documentFilePath != "")
+                Open(documentFilePath);
+        }
+
+        private void FrmOrbital_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            OrbitalSection section = config.Sections["OrbitalSection"] as OrbitalSection;
+            if (section == null)
+            {
+                section = new OrbitalSection();
+                config.Sections.Add("OrbitalSection", section);               
+            }
+
+            if (WindowState == FormWindowState.Maximized)
+            {
+                section.Left = unmaximizedBounds.Left;
+                section.Top = unmaximizedBounds.Top;
+                section.Width = unmaximizedBounds.Width;
+                section.Height = unmaximizedBounds.Height;
+                section.Maximized = true;
+            }
+            else
+            {
+                section.Left = Left;
+                section.Top = Top;
+                section.Width = Width;
+                section.Height = Height;
+                section.Maximized = false;
+            }
+
+            section.DocumentFilePath = documentFilePath;
+            config.Save();
+        }
+
+        private void btnChangeBackground_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = openFileDialog.ShowDialog();
+            if (dr == DialogResult.OK)
+                ChangeBackground(openFileDialog.FileName);
+        }
+
+        private void btnClearBackground_Click(object sender, EventArgs e)
+        {
+            ChangeBackground(null);
+        }
+
+        private void pbImage_DoubleClick(object sender, EventArgs e)
+        {
+            DialogResult dr = openFileDialog.ShowDialog();
             if (dr == DialogResult.OK)
             {
                 try
                 {
-                    imageFileName = ofdOpenFileDialog.FileName;
+                    imageFileName = openFileDialog.FileName;
                     pbImage.Image = Image.FromFile(imageFileName);
                 }
                 catch (FileNotFoundException)
@@ -901,152 +746,526 @@ namespace Orbital
             }
         }
 
-        private void lblSelectedColor_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void tsbReset_Click(object sender, EventArgs e)
         {
-            DialogResult dr = cdColorDialog.ShowDialog();
-            if (dr == DialogResult.OK)
-                lblColor.BackColor = cdColorDialog.Color;
-        }
+            reset = true;
 
-        private void lbBodies_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int index = lbBodies.SelectedIndex;
-            if (index == -1)
-                return;
-
-            Body body = lbBodies.Items[index] as Body;
-            UpdateSelected(body);
-        }
-
-        private void ChangeBackground(string fileName)
-        {
-            try
-            {
-                backgroundFileName = fileName;
-                background = fileName != null && fileName != "" ? Image.FromFile(fileName) : null;
-                pbSimulation.Invalidate();
-            }
-            catch (FileNotFoundException)
-            {
-                MessageBox.Show("Arquivo de imagem de fundo '" + fileName + "' não encontrado.");
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Erro ao carregar a imagem de fundo (" + e.Message + ").");
-            }
-        }
-
-        private void FrmOrbital_Load(object sender, EventArgs e)
-        {
-            config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            OrbitalSection section = config.Sections["OrbitalSection"] as OrbitalSection;
-            if (section == null)
-            {
-                section = new OrbitalSection();
-                config.Sections.Add("OrbitalSection", section);
-                config.Save();
-            }
-
-            ChangeBackground(section.BackgroundFileName);
-
-            chkShowPath.Checked = section.DrawPath;
-
-            Body.G = section.G;
-            txtG.Text = Body.G.ToString(CultureInfo.InvariantCulture);
-
-            viewPortWidth = section.ViewPortWidth;
-            txtViewPortWidth.Text = viewPortWidth.ToString(CultureInfo.InvariantCulture);
-
-            BodyCollection collection = section.Bodies;
-            foreach (BodyConfigElement element in collection)
-            {
-                string imageFileName = element.Image;
-                try
-                {
-                    Image.FromFile(imageFileName);
-                }
-                catch (Exception)
-                {
-                    imageFileName = null;
-                }
-
-                Body body = new Body(element.Name, new Vector2D(element.X, element.Y), new Vector2D(element.VX, element.VY), element.Mass, element.Radius, imageFileName, Color.FromArgb(element.Color), element.Locked);
-                bodies.Add(body);
-            }
-
-            UpdateBodiesListBox();
-        }
-
-        private void FrmOrbital_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            OrbitalSection section = config.Sections["OrbitalSection"] as OrbitalSection;
-            if (section == null)
-            {
-                section = new OrbitalSection();
-                config.Sections.Add("OrbitalSection", section);               
-            }
-
-            section.BackgroundFileName = backgroundFileName;
-            section.DrawPath = chkShowPath.Checked;
-            section.G = Body.G;
-            section.ViewPortWidth = viewPortWidth;
-
-            BodyCollection collection = section.Bodies;
-            collection.Clear();
             for (int i = 0; i < bodies.Count; i++)
             {
                 Body body = bodies[i];
-                BodyConfigElement element = collection[body.Name];
-                element.Mass = body.Mass;
-                element.Radius = body.Radius;
-                element.Image = body.ImageFileName;
-                element.Color = body.Color.ToArgb();
-                element.Locked = body.Locked;
-
-                Vector2D pos = body.InitialPosition;
-                element.X = pos.X;
-                element.Y = pos.Y;
-
-                Vector2D vel = body.InitialVelocity;
-                element.VX = vel.X;
-                element.VY = vel.Y;
+                body.Reset();
             }
 
-            config.Save();
+            watcher.Reset();
+            watcher.Start();
+
+            pbSimulation.Invalidate();
         }
 
-        private void btnChangeBackground_Click(object sender, EventArgs e)
+        private void tsbPlay_Click(object sender, EventArgs e)
         {
-            DialogResult dr = ofdOpenFileDialog.ShowDialog();
-            if (dr == DialogResult.OK)
-                ChangeBackground(ofdOpenFileDialog.FileName);
-        }
-
-        private void btnClearBackground_Click(object sender, EventArgs e)
-        {
-            ChangeBackground(null);
-        }
-
-        private void btnConstantsApply_Click(object sender, EventArgs e)
-        {
-            try
+            if (tmrTick.Enabled)
             {
-                Body.G = float.Parse(txtG.Text, CultureInfo.InvariantCulture);
+                watcher.Stop();
+                tmrTick.Enabled = false;
+                tsbPlay.Text = "Play";
+                tsbPlay.Image = Properties.Resources.play;
+                btnAdd.Enabled = true;
             }
-            catch (FormatException)
+            else
             {
-                MessageBox.Show("Formato inválido do valor de G.");
+                watcher.Reset();
+                watcher.Start();
+                tmrTick.Enabled = true;
+                tsbPlay.Text = "Pause";
+                tsbPlay.Image = Properties.Resources.pause;
+                btnAdd.Enabled = false;
             }
 
-            try
-            {
-                viewPortWidth = float.Parse(txtViewPortWidth.Text, CultureInfo.InvariantCulture);
+            UpdateSelected(selected);
+        }
+
+        private void OptionsApply(FrmOptions sender)
+        {
+            Body.G = sender.G;
+            viewPortWidth = sender.ViewPortWidth;
+            drawPath = sender.DrawPath;
+            timeScale = sender.TimeScale;
+            stepsPerFrame = sender.StepsPerFrame;
+            ChangeBackground(sender.BackgroundFilePath);
+            pbSimulation.Invalidate();
+        }
+
+        private void tsbOptions_Click(object sender, EventArgs e)
+        {
+            FrmOptions options = new FrmOptions();
+            options.G = Body.G;
+            options.ViewPortWidth = viewPortWidth;
+            options.DrawPath = drawPath;
+            options.BackgroundFilePath = backgroundFilePath;
+            options.TimeScale = timeScale;
+            options.StepsPerFrame = stepsPerFrame;
+            options.OnApply += OptionsApply;
+            options.Show();
+        }
+
+        private void New(bool invalidate = true)
+        {
+            documentFilePath = null;
+            bodies.Clear();
+            Body.G = Consts.G;
+            viewPortWidth = VIEW_PORT_WIDTH;
+            drawPath = true;
+            reset = true;
+
+            UpdateSelected(null);
+            UpdateBodiesListBox();
+            ChangeBackground(null, false, invalidate);
+
+            if (invalidate)
                 pbSimulation.Invalidate();
-            }
-            catch (FormatException)
+        }
+
+        public static Image OpenImageFile(string fileName, bool showMessageOnException)
+        {
+            try
             {
-                MessageBox.Show("Formato inválido do valor da largura da câmera.");
+                return fileName != null && fileName != "" ? Image.FromFile(fileName) : null;
             }
+            catch (FileNotFoundException)
+            {
+                if (showMessageOnException)
+                    MessageBox.Show("Arquivo de imagem '" + fileName + "' não encontrado.");
+            }
+            catch (Exception e)
+            {
+                if (showMessageOnException)
+                    MessageBox.Show("Erro ao carregar a imagem (" + e.Message + ").");
+            }
+
+            return null;
+        }
+
+        private void Open()
+        {
+            DialogResult dr = openFileDialog.ShowDialog();
+            if (dr == DialogResult.OK)
+                Open(openFileDialog.FileName);
+        }
+
+        private void Open(string fileName)
+        {
+            New(false);
+
+            documentFilePath = fileName;
+
+            XmlDocument document = new XmlDocument();
+            document.Load(fileName);
+
+            XmlNode orbital = document.SelectSingleNode("orbital");
+            if (orbital == null)
+                return;
+
+            XmlNode options = orbital.SelectSingleNode("options");
+            if (options != null)
+            {
+                XmlNode drawPath = options.Attributes.GetNamedItem("drawPath");
+                if (drawPath != null)
+                    try
+                    {
+                        this.drawPath = bool.Parse(drawPath.Value);
+                    }
+                    catch (Exception)
+                    {
+                        this.drawPath = true;
+                    }
+                else
+                    this.drawPath = true;
+
+                XmlNode g = options.Attributes.GetNamedItem("G");
+                if (g != null)
+                    try
+                    {
+                        Body.G = double.Parse(g.Value, CultureInfo.InvariantCulture);
+                    }
+                    catch (Exception)
+                    {
+                        Body.G = Consts.G;
+                    }
+                else
+                    Body.G = Consts.G;
+
+                XmlNode viewPortWidth = options.Attributes.GetNamedItem("viewPortWidth");
+                if (g != null)
+                    try
+                    {
+                        this.viewPortWidth = double.Parse(viewPortWidth.Value, CultureInfo.InvariantCulture);
+                    }
+                    catch (Exception)
+                    {
+                        this.viewPortWidth = VIEW_PORT_WIDTH;
+                    }
+                else
+                    this.viewPortWidth = VIEW_PORT_WIDTH;
+
+                XmlNode backgroundFilePath = options.Attributes.GetNamedItem("backgroundFilePath");
+                if (backgroundFilePath != null)
+                {
+                    if (!ChangeBackground(backgroundFilePath.Value, false, false))
+                        this.backgroundFilePath = null;
+                }
+                else
+                    this.backgroundFilePath = null;
+
+                XmlNode timeScale = options.Attributes.GetNamedItem("timeScale");
+                if (timeScale != null)
+                    try
+                    {
+                        this.timeScale = float.Parse(timeScale.Value, CultureInfo.InvariantCulture);
+                    }
+                    catch (Exception)
+                    {
+                        this.timeScale = TIME_SCALE;
+                    }
+                else
+                    this.timeScale = TIME_SCALE;
+
+                XmlNode stepsPerFrame = options.Attributes.GetNamedItem("stepsPerFrame");
+                if (stepsPerFrame != null)
+                    try
+                    {
+                        this.stepsPerFrame = int.Parse(stepsPerFrame.Value);
+                    }
+                    catch (Exception)
+                    {
+                        this.stepsPerFrame = STEPS_PER_FRAME;
+                    }
+                else
+                    this.stepsPerFrame = STEPS_PER_FRAME;
+            }
+
+            XmlNode bodies = orbital.SelectSingleNode("bodies");
+            if (bodies != null)
+            {
+                XmlNodeList bodyList = bodies.SelectNodes("body");
+                foreach (XmlNode bodyElement in bodyList)
+                {
+                    string name;
+                    double x;
+                    double y;
+                    double vx;
+                    double vy;
+                    double mass;
+                    double radius;
+                    string imageFileName;
+                    Color color;
+                    bool locked;
+
+                    XmlNode nodeName = bodyElement.Attributes.GetNamedItem("name");
+                    if (nodeName != null)
+                        try
+                        {
+                            name = nodeName.Value;
+                            if (NameExist(name))
+                                name = GenerateName();
+                        }
+                        catch (Exception)
+                        {
+                            name = GenerateName();
+                        }
+                    else
+                        name = GenerateName();
+
+                    XmlNode nodeX = bodyElement.Attributes.GetNamedItem("x");
+                    if (nodeX != null)
+                        try
+                        {
+                            x = double.Parse(nodeX.Value, CultureInfo.InvariantCulture);
+                        }
+                        catch (Exception)
+                        {
+                            x = 0;
+                        }
+                    else
+                        x = 0;
+
+                    XmlNode nodeY = bodyElement.Attributes.GetNamedItem("y");
+                    if (nodeY != null)
+                        try
+                        {
+                            y = double.Parse(nodeY.Value, CultureInfo.InvariantCulture);
+                        }
+                        catch (Exception)
+                        {
+                            y = 0;
+                        }
+                    else
+                        y = 0;
+
+                    XmlNode nodeVX = bodyElement.Attributes.GetNamedItem("vx");
+                    if (nodeX != null)
+                        try
+                        {
+                            vx = double.Parse(nodeVX.Value, CultureInfo.InvariantCulture);
+                        }
+                        catch (Exception)
+                        {
+                            vx = 0;
+                        }
+                    else
+                        vx = 0;
+
+                    XmlNode nodeVY = bodyElement.Attributes.GetNamedItem("vy");
+                    if (nodeVY != null)
+                        try
+                        {
+                            vy = double.Parse(nodeVY.Value, CultureInfo.InvariantCulture);
+                        }
+                        catch (Exception)
+                        {
+                            vy = 0;
+                        }
+                    else
+                        vy = 0;
+
+                    XmlNode nodeMass = bodyElement.Attributes.GetNamedItem("mass");
+                    if (nodeMass != null)
+                        try
+                        {
+                            mass = double.Parse(nodeMass.Value, CultureInfo.InvariantCulture);
+                        }
+                        catch (Exception)
+                        {
+                            mass = 0;
+                        }
+                    else
+                        mass = 0;
+
+                    XmlNode nodeRadius = bodyElement.Attributes.GetNamedItem("radius");
+                    if (nodeRadius != null)
+                        try
+                        {
+                            radius = double.Parse(nodeRadius.Value, CultureInfo.InvariantCulture);
+                        }
+                        catch (Exception)
+                        {
+                            radius = 0;
+                        }
+                    else
+                        radius = 0;
+
+                    XmlNode nodeImageFileName = bodyElement.Attributes.GetNamedItem("imageFileName");
+                    if (nodeImageFileName != null)
+                        try
+                        {
+                            imageFileName = nodeImageFileName.Value;
+                            if (OpenImageFile(imageFileName, false) == null)
+                                imageFileName = null;
+                        }
+                        catch (Exception)
+                        {
+                            imageFileName = null;
+                        }
+                    else
+                        imageFileName = null;
+
+                    XmlNode nodeColor = bodyElement.Attributes.GetNamedItem("color");
+                    if (nodeColor != null)
+                        try
+                        {
+                            color = Color.FromArgb(int.Parse(nodeColor.Value));
+                        }
+                        catch (Exception)
+                        {
+                            color = Color.Yellow;
+                        }
+                    else
+                        color = Color.Yellow;
+
+                    XmlNode nodeLocked = bodyElement.Attributes.GetNamedItem("locked");
+                    if (nodeLocked != null)
+                        try
+                        {
+                            locked = bool.Parse(nodeLocked.Value);
+                        }
+                        catch (Exception)
+                        {
+                            locked = false;
+                        }
+                    else
+                        locked = false;
+
+                    Body body = new Body(name, new Vector2D(x, y), new Vector2D(vx, vy), mass, radius, imageFileName, color, locked);
+                    this.bodies.Add(body);
+                }
+
+                UpdateBodiesListBox();
+            }
+
+            pbSimulation.Invalidate();
+        }
+
+        private void Save(bool newFile = false)
+        {
+            if (newFile || documentFilePath == null || documentFilePath == "")
+            {
+                DialogResult dr = saveFileDialog.ShowDialog();
+                if (dr == DialogResult.OK)
+                    Save(saveFileDialog.FileName);
+            }
+            else
+                Save(documentFilePath);
+        }
+
+        private void Save(string fileName)
+        {
+            documentFilePath = fileName;
+
+            XmlDocument document = new XmlDocument();
+
+            XmlElement orbital = document.CreateElement("orbital");
+
+            XmlElement options = document.CreateElement("options");
+
+            XmlAttribute drawPath = document.CreateAttribute("drawPath");
+            drawPath.Value = this.drawPath.ToString();
+            options.Attributes.Append(drawPath);
+
+            XmlAttribute backgroundFilePath = document.CreateAttribute("backgroundFilePath");
+            backgroundFilePath.Value = this.backgroundFilePath != null ? this.backgroundFilePath : "";
+            options.Attributes.Append(backgroundFilePath);
+
+            XmlAttribute g = document.CreateAttribute("G");
+            g.Value = Body.G.ToString(CultureInfo.InvariantCulture);
+            options.Attributes.Append(g);
+
+            XmlAttribute viewPortWidth = document.CreateAttribute("viewPortWidth");
+            viewPortWidth.Value = this.viewPortWidth.ToString(CultureInfo.InvariantCulture);
+            options.Attributes.Append(viewPortWidth);
+
+            XmlAttribute timeScale = document.CreateAttribute("timeScale");
+            timeScale.Value = this.timeScale.ToString(CultureInfo.InvariantCulture);
+            options.Attributes.Append(timeScale);
+
+            XmlAttribute stepsPerFrame = document.CreateAttribute("stepsPerFrame");
+            stepsPerFrame.Value = this.stepsPerFrame.ToString();
+            options.Attributes.Append(stepsPerFrame);
+
+            orbital.AppendChild(options);
+
+            XmlElement bodies = document.CreateElement("bodies");
+
+            for (int i = 0; i < this.bodies.Count; i++)
+            {
+                Body body = this.bodies[i];
+
+                XmlElement bodyElement = document.CreateElement("body");
+
+                XmlAttribute name = document.CreateAttribute("name");
+                name.Value = body.Name;
+                bodyElement.Attributes.Append(name);
+
+                XmlAttribute mass = document.CreateAttribute("mass");
+                mass.Value = body.Mass.ToString(CultureInfo.InvariantCulture);
+                bodyElement.Attributes.Append(mass);
+
+                XmlAttribute radius = document.CreateAttribute("radius");
+                radius.Value = body.Radius.ToString(CultureInfo.InvariantCulture);
+                bodyElement.Attributes.Append(radius);
+
+                XmlAttribute x = document.CreateAttribute("x");
+                x.Value = body.InitialPosition.X.ToString(CultureInfo.InvariantCulture);
+                bodyElement.Attributes.Append(x);
+
+                XmlAttribute y = document.CreateAttribute("y");
+                y.Value = body.InitialPosition.Y.ToString(CultureInfo.InvariantCulture);
+                bodyElement.Attributes.Append(y);
+
+                XmlAttribute vx = document.CreateAttribute("vx");
+                vx.Value = body.InitialVelocity.X.ToString(CultureInfo.InvariantCulture);
+                bodyElement.Attributes.Append(vx);
+
+                XmlAttribute vy = document.CreateAttribute("vy");
+                vy.Value = body.InitialVelocity.Y.ToString(CultureInfo.InvariantCulture);
+                bodyElement.Attributes.Append(vy);
+
+                XmlAttribute imageFileName = document.CreateAttribute("imageFileName");
+                imageFileName.Value = body.ImageFileName;
+                bodyElement.Attributes.Append(imageFileName);
+
+                XmlAttribute color = document.CreateAttribute("color");
+                color.Value = body.Color.ToArgb().ToString();
+                bodyElement.Attributes.Append(color);
+
+                XmlAttribute locked = document.CreateAttribute("locked");
+                locked.Value = body.Locked.ToString();
+                bodyElement.Attributes.Append(locked);
+
+                bodies.AppendChild(bodyElement);
+            }
+
+            orbital.AppendChild(bodies);
+
+            document.AppendChild(orbital);
+
+            document.Save(fileName);
+        }
+
+        private void tsbOpen_Click(object sender, EventArgs e)
+        {
+            Open();
+        }
+
+        private void tsbSaveAs_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void tsbNew_Click(object sender, EventArgs e)
+        {
+            New();
+        }
+
+        private void mnuNew_Click(object sender, EventArgs e)
+        {
+            New();
+        }
+
+        private void mnuOpen_Click(object sender, EventArgs e)
+        {
+            Open();
+        }
+
+        private void mnuSave_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        private void mnuSaveAs_Click(object sender, EventArgs e)
+        {
+            Save(true);
+        }
+
+        private void mnuClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void tsbSave_Click(object sender, EventArgs e)
+        {
+            Save(false);
+        }
+
+        private void FrmOrbital_SizeChanged(object sender, EventArgs e)
+        {
+            if (WindowState != FormWindowState.Maximized)
+                unmaximizedBounds.Size = Size;
+        }
+
+        private void FrmOrbital_LocationChanged(object sender, EventArgs e)
+        {
+            if (WindowState != FormWindowState.Maximized)
+                unmaximizedBounds.Location = Location;
         }
     }
 }

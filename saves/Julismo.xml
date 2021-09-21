@@ -1,0 +1,11 @@
+<orbital>
+  <options drawPath="True" backgroundFilePath="C:\Users\miste\Documents\Projects\c#\vc#\Orbital\resources\background\Starfield7L.jpg" G="6.67E-11" viewPortWidth="2000000000000" timeScale="1000" stepsPerFrame="1000" />
+  <bodies>
+    <body name="Julinho (Sol)" mass="1.989E+30" radius="100000000000" x="0" y="0" vx="0" vy="0" imageFileName="C:\Users\miste\Documents\Projects\c#\vc#\Orbital\resources\objects\Brightman Sun.png" color="-256" locked="False" />
+    <body name="Chequer (Terra)" mass="5.972E+24" radius="25000000000" x="149600000000" y="0" vx="0" vy="29780" imageFileName="C:\Users\miste\Documents\Projects\c#\vc#\Orbital\resources\objects\Chequer Milos Earth.png" color="-16744256" locked="False" />
+    <body name="Gebirge (Jupiter)" mass="1.8986E+24" radius="40000000000" x="778330000000" y="0" vx="0" vy="13050" imageFileName="C:\Users\miste\Documents\Projects\c#\vc#\Orbital\resources\objects\Planet Gebirge.png" color="-65281" locked="False" />
+    <body name="Mercurio" mass="3.302E+23" radius="10000000000" x="57910000000" y="0" vx="0" vy="48920" imageFileName="C:\Users\miste\Documents\Projects\c#\vc#\Orbital\resources\objects\Mercury.png" color="-32704" locked="False" />
+    <body name="Venus" mass="4.8685E+24" radius="20000000000" x="108200000000" y="0" vx="0" vy="35020" imageFileName="C:\Users\miste\Documents\Projects\c#\vc#\Orbital\resources\objects\Venus.png" color="-4144960" locked="False" />
+    <body name="Marte" mass="6.4185E+23" radius="10000000000" x="227940000000" y="0" vx="0" vy="24070" imageFileName="C:\Users\miste\Documents\Projects\c#\vc#\Orbital\resources\objects\Mars.png" color="-65536" locked="False" />
+  </bodies>
+</orbital>

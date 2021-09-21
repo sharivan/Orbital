@@ -7,7 +7,7 @@ namespace Orbital
 {
     public class Body
     {
-        public static float G = Consts.G;
+        public static double G = Consts.G;
 
         private string name;
 
@@ -21,8 +21,8 @@ namespace Orbital
         private Vector2D vn;
         private Vector2D vel;
 
-        private float mass;
-        private float radius;
+        private double mass;
+        private double radius;
 
         private string imageFileName;
         private Image image;
@@ -97,7 +97,7 @@ namespace Orbital
             }
         }
 
-        public float Mass
+        public double Mass
         {
             get
             {
@@ -110,7 +110,7 @@ namespace Orbital
             }
         }
 
-        public float Radius
+        public double Radius
         {
             get
             {
@@ -171,7 +171,7 @@ namespace Orbital
             }
         }
 
-        public Body(string name, Vector2D pos, Vector2D vel, float mass, float radius, string imageFileName, Color color, bool locked = false)
+        public Body(string name, Vector2D pos, Vector2D vel, double mass, double radius, string imageFileName, Color color, bool locked = false)
         {
             this.name = name;
             this.pos = pos;
@@ -195,7 +195,7 @@ namespace Orbital
             vn = vel;
         }
 
-        public Vector2D Acceleration(List<Body> bodies, Vector2D r)
+        private Vector2D Acceleration(List<Body> bodies, Vector2D r)
         {
             Vector2D result = Vector2D.NULL_VECTOR;
             for (int i = 0; i < bodies.Count; i++)
@@ -203,17 +203,16 @@ namespace Orbital
                 Body other = bodies[i];
                 if (other == this)
                     continue;
-
-                double d = r.DistanceTo(other.rn);
-                Vector2D dir = (other.rn - r).Versor;
-                float ai = (float)((double) G * other.mass / (d * d));
-                result += ai * dir;
+                
+                double d2 = r.DistanceSquareTo(other.rn);
+                double d = Math.Sqrt(d2);
+                result += other.mass / d * (other.rn - r) / d2 * G;
             }
 
             return result;
         }
 
-        public void Iteract(List<Body> bodies, float dt)
+        public void Step(List<Body> bodies, float dt)
         {
             if (locked)
                 return;
@@ -242,6 +241,9 @@ namespace Orbital
         {
             pos = initialPos;
             vel = initialVel;
+            lastPos = pos;
+            rn = pos;
+            vn = vel;
         }
 
         public override string ToString()
