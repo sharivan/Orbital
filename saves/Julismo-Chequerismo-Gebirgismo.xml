@@ -1,8 +1,8 @@
 <orbital>
-  <options drawPath="True" backgroundFilePath="C:\Users\miste\Documents\Projects\c#\vc#\Orbital\resources\background\Starfield1L.jpg" G="6.669999969011187E-11" viewPortWidth="699999977472" />
+  <options drawPath="True" backgroundFilePath="resources\background\Starfield6L.jpg" G="6.669999969011187E-11" viewPortWidth="699999977472" timeScale="1000" stepsPerFrame="1" />
   <bodies>
-    <body name="Julinho" mass="1E+30" radius="30000000000" x="-150000000000" y="0" vx="0" vy="-10000" imageFileName="C:\Users\miste\Documents\Projects\c#\vc#\Orbital\resources\objects\Brightman Sun.png" color="-256" locked="False" />
-    <body name="Chequer" mass="1E+20" radius="15000000000" x="0" y="0" vx="0" vy="30000" imageFileName="C:\Users\miste\Documents\Projects\c#\vc#\Orbital\resources\objects\Chequer Milos Earth.png" color="-16744256" locked="False" />
-    <body name="Gebirge" mass="1E+30" radius="30000000000" x="150000000000" y="0" vx="0" vy="10000" imageFileName="C:\Users\miste\Documents\Projects\c#\vc#\Orbital\resources\objects\Planet Gebirge.png" color="-65281" locked="False" />
+    <body name="Julinho" mass="1E+30" radius="30000000000" x="61694917952.9257" y="-112989189580.93893" vx="9756.93925045005" vy="6444.181011533672" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Chequer" mass="1E+20" radius="15000000000" x="-220825532970.69632" y="103253324395.16167" vx="-12339.216982051725" vy="7883.404212567366" imageFileName="resources\objects\Chequer Milos Earth.png" color="-16744256" enabled="True" locked="False" />
+    <body name="Gebirge" mass="1E+30" radius="30000000000" x="-61694867947.28565" y="112989112659.85735" vx="-9756.933534745976" vy="-6444.185137877381" imageFileName="resources\objects\Planet Gebirge.png" color="-65281" enabled="True" locked="False" />
   </bodies>
 </orbital>

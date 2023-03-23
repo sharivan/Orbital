@@ -1,0 +1,9 @@
+<orbital>
+  <options drawPath="True" backgroundFilePath="resources\background\Starfield5L.jpg" G="6.67E-11" viewPortWidth="400000000000" timeScale="1000" stepsPerFrame="1" />
+  <bodies>
+    <body name="Julinho" mass="1.989E+30" radius="10000000000" x="-100000000000" y="0" vx="0" vy="-10000" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Sharivan" mass="1.989E+30" radius="10000000000" x="100000000000" y="0" vx="0" vy="10000" imageFileName="resources\objects\Sharivan Red Supergiant.png" color="-65536" enabled="True" locked="False" />
+    <body name="Gebirge" mass="-1.989E+30" radius="10000000000" x="0" y="-100000000000" vx="10000" vy="0" imageFileName="resources\objects\Planet Gebirge.png" color="-65281" enabled="True" locked="False" />
+    <body name="Chequer" mass="-1.989E+30" radius="10000000000" x="0" y="100000000000" vx="-10000" vy="0" imageFileName="resources\objects\Chequer Milos Earth.png" color="-16744193" enabled="True" locked="False" />
+  </bodies>
+</orbital>

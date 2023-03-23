@@ -1,114 +1,78 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Globalization;
 
-namespace Orbital
+namespace Orbital;
+
+public readonly struct Vector2D
 {
-    public struct Vector2D
+    public static readonly Vector2D NULL_VECTOR = new(0, 0);
+
+    public double X
     {
-        public static readonly Vector2D NULL_VECTOR = new Vector2D(0, 0);
+        get;
+    }
 
-        private double x; // abscissa
-        private double y; // ordenada
+    public double Y
+    {
+        get;
+    }
 
-        public double X
-        {
-            get
-            {
-                return x;
-            }
-        }
+    public bool IsNull => X == 0 && Y == 0;
 
-        public double Y
-        {
-            get
-            {
-                return y;
-            }
-        }
+    public double Length => Math.Sqrt(LengthSquare);
 
-        public bool IsNull
-        {
-            get
-            {
-                return x == 0 && y == 0;
-            }
-        }
+    public double LengthSquare => X * X + Y * Y;
 
-        public double Length
-        {
-            get
-            {
-                return Math.Sqrt(LengthSquare);
-            }
-        }
+    public Vector2D Versor => !IsNull ? this / Length : NULL_VECTOR;
 
-        public double LengthSquare
-        {
-            get
-            {
-                return x * x + y * y;
-            }
-        }
+    public Vector2D(double x, double y)
+    {
+        X = x;
+        Y = y;
+    }
 
-        public Vector2D Versor
-        {
-            get
-            {
-                return !IsNull ? this / Length : NULL_VECTOR;
-            }
-        }
+    public double DistanceTo(Vector2D v)
+    {
+        return (this - v).Length;
+    }
 
-        public Vector2D(double x, double y)
-        {
-            this.x = x;
-            this.y = y;
-        }
+    public double DistanceSquareTo(Vector2D v)
+    {
+        return (this - v).LengthSquare;
+    }
 
-        public double DistanceTo(Vector2D v)
-        {
-            return (this - v).Length;
-        }
+    public static Vector2D operator +(Vector2D v1, Vector2D v2)
+    {
+        return new Vector2D(v1.X + v2.X, v1.Y + v2.Y);
+    }
 
-        public double DistanceSquareTo(Vector2D v)
-        {
-            return (this - v).LengthSquare;
-        }
+    public static Vector2D operator -(Vector2D v1, Vector2D v2)
+    {
+        return new Vector2D(v1.X - v2.X, v1.Y - v2.Y);
+    }
 
-        public static Vector2D operator +(Vector2D v1, Vector2D v2)
-        {
-            return new Vector2D(v1.x + v2.x, v1.y + v2.y);
-        }
+    public static Vector2D operator *(Vector2D v, double a)
+    {
+        return new Vector2D(v.X * a, v.Y * a);
+    }
 
-        public static Vector2D operator -(Vector2D v1, Vector2D v2)
-        {
-            return new Vector2D(v1.x - v2.x, v1.y - v2.y);
-        }
+    public static Vector2D operator *(double a, Vector2D v)
+    {
+        return new Vector2D(a * v.X, a * v.Y);
+    }
 
-        public static Vector2D operator *(Vector2D v, double a)
-        {
-            return new Vector2D(v.x * a, v.y * a);
-        }
+    public static Vector2D operator /(Vector2D v, double a)
+    {
+        return new Vector2D(v.X / a, v.Y / a);
+    }
 
-        public static Vector2D operator *(double a, Vector2D v)
-        {
-            return new Vector2D(a * v.x, a * v.y);
-        }
+    public static double operator *(Vector2D v1, Vector2D v2)
+    {
+        return v1.X * v2.X + v1.Y * v2.Y;
+    }
 
-        public static Vector2D operator /(Vector2D v, double a)
-        {
-            return new Vector2D(v.x / a, v.y / a);
-        }
-
-        public static double operator *(Vector2D v1, Vector2D v2)
-        {
-            return v1.x * v2.x + v1.y * v2.y;
-        }
-
-        public override string ToString()
-        {
-            return "(" + x.ToString(CultureInfo.InvariantCulture) + ", " + y.ToString(CultureInfo.InvariantCulture) + ")";
-        }
+    public override string ToString()
+    {
+        return "(" + X.ToString(CultureInfo.InvariantCulture) + ", " + Y.ToString(CultureInfo.InvariantCulture) + ")";
     }
 }

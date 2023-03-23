@@ -1,0 +1,36 @@
+<orbital>
+  <options drawPath="True" backgroundFilePath="resources\background\Starfield2L.jpg" G="6.67E-11" viewPortWidth="400000000000" timeScale="1000" stepsPerFrame="1" />
+  <bodies>
+    <body name="Julinho1" mass="1E+30" radius="10000000000" x="-100000000000" y="-100000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="True" />
+    <body name="Julinho2" mass="1E+30" radius="10000000000" x="-90000000000" y="-90000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho3" mass="1E+30" radius="10000000000" x="-80000000000" y="-80000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho4" mass="1E+30" radius="10000000000" x="-70000000000" y="-70000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho5" mass="1E+30" radius="10000000000" x="-60000000000" y="-60000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho6" mass="1E+30" radius="10000000000" x="-50000000000" y="-50000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho7" mass="1E+30" radius="10000000000" x="-40000000000" y="-40000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho8" mass="1E+30" radius="10000000000" x="-30000000000" y="-30000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho9" mass="1E+30" radius="10000000000" x="-20000000000" y="-20000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho10" mass="1E+30" radius="10000000000" x="-10000000000" y="-10000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho11" mass="1E+30" radius="10000000000" x="-0" y="-0" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho12" mass="1E+30" radius="10000000000" x="10000000000" y="10000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="True" />
+    <body name="Julinho13" mass="1E+30" radius="10000000000" x="20000000000" y="20000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho14" mass="1E+30" radius="10000000000" x="30000000000" y="30000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho15" mass="1E+30" radius="10000000000" x="40000000000" y="40000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho16" mass="1E+30" radius="10000000000" x="50000000000" y="50000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho17" mass="1E+30" radius="10000000000" x="60000000000" y="60000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho18" mass="1E+30" radius="10000000000" x="70000000000" y="70000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho19" mass="1E+30" radius="10000000000" x="80000000000" y="80000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho20" mass="1E+30" radius="10000000000" x="90000000000" y="90000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho21" mass="1E+30" radius="10000000000" x="100000000000" y="100000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="True" />
+    <body name="Julinho22" mass="1E+30" radius="10000000000" x="-90000000000" y="-100000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho23" mass="1E+30" radius="10000000000" x="-80000000000" y="-100000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho25" mass="1E+30" radius="10000000000" x="-70000000000" y="-100000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho24" mass="1E+30" radius="10000000000" x="-60000000000" y="-100000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho26" mass="1E+30" radius="10000000000" x="-50000000000" y="-100000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho27" mass="1E+30" radius="10000000000" x="-40000000000" y="-100000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho28" mass="1E+30" radius="10000000000" x="-30000000000" y="-100000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho29" mass="1E+30" radius="10000000000" x="-20000000000" y="-100000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+    <body name="Julinho30" mass="1E+30" radius="10000000000" x="-10000000000" y="-100000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="True" />
+    <body name="Julinho31" mass="1E+30" radius="10000000000" x="0" y="-100000000000" vx="0" vy="0" imageFileName="resources\objects\Brightman Sun.png" color="-256" enabled="True" locked="False" />
+  </bodies>
+</orbital>
